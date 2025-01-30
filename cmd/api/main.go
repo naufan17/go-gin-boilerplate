@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	"github.com/naufan17/go-gin-boilerplate/internal/configs"
 	"github.com/naufan17/go-gin-boilerplate/internal/routes"
 
 	"github.com/gin-gonic/gin"
@@ -28,6 +29,12 @@ func main() {
 
 	// Initialize the router
 	router := gin.Default()
+
+	// Setup the CORS middleware
+	configs.SetupCORS(router)
+
+	// Setup the secure middleware
+	configs.SetupSecure(router)
 
 	// Setup the routes
 	routes.SetupRouter(router)

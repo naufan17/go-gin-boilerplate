@@ -13,7 +13,9 @@ func AuthenticationMiddleware(c *gin.Context) {
 	authHeader := c.GetHeader("Authorization")
 
 	if authHeader == "" {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "Authorization header is required"})
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Authorization header is required",
+		})
 		c.Abort()
 		return
 	}
@@ -22,7 +24,9 @@ func AuthenticationMiddleware(c *gin.Context) {
 	claims, err := utils.ValidateJWT(token)
 
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "Invalid token"})
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Invalid token",
+		})
 		c.Abort()
 		return
 	}

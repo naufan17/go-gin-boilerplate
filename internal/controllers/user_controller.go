@@ -16,12 +16,12 @@ func GetProfile(c *gin.Context) {
 	if err != nil {
 		if err.Error() == "not found" {
 			c.JSON(http.StatusNotFound, gin.H{
-				"message": "User not found",
+				"error": "User not found",
 			})
 			return
 		}
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"message": "Failed to get user profile",
+			"error": "Failed to get user profile",
 		})
 		return
 	}

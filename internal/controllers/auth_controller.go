@@ -14,27 +14,36 @@ func Register(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Invalid request body",
+			"error": "Invalid request body",
 		})
 		return
 	}
+
+	// if err := configs.GetValidator().Struct(user); err != nil {
+	// 	validationErrors := utils.ParseValidationError(err.(validator.ValidationErrors))
+
+	// 	c.JSON(http.StatusBadRequest, gin.H{
+	// 		"errors": validationErrors,
+	// 	})
+	// 	return
+	// }
 
 	_, err := services.RegisterUser(user)
 
 	if err != nil {
 		if err.Error() == "conflict" {
 			c.JSON(http.StatusConflict, gin.H{
-				"message": "User already exists",
+				"error": "User already exists",
 			})
 			return
 		} else if err.Error() == "internal server error" {
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"message": "Failed to register user",
+				"error": "Failed to register user",
 			})
 			return
 		}
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"message": "Failed to register user",
+			"error": "Failed to register user",
 		})
 		return
 	}
@@ -49,32 +58,41 @@ func Login(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Invalid request body",
+			"error": "Invalid request body",
 		})
 		return
 	}
+
+	// if err := configs.GetValidator().Struct(user); err != nil {
+	// 	validationErrors := utils.ParseValidationError(err.(validator.ValidationErrors))
+
+	// 	c.JSON(http.StatusBadRequest, gin.H{
+	// 		"errors": validationErrors,
+	// 	})
+	// 	return
+	// }
 
 	accessToken, err := services.LoginUser(user)
 
 	if err != nil {
 		if err.Error() == "unauthorized" {
 			c.JSON(http.StatusUnauthorized, gin.H{
-				"message": "Email or password is incorrect",
+				"error": "Email or password is incorrect",
 			})
 			return
 		} else if err.Error() == "not found" {
 			c.JSON(http.StatusNotFound, gin.H{
-				"message": "User not found",
+				"error": "User not found",
 			})
 			return
 		} else if err.Error() == "internal server error" {
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"message": "Failed to login user",
+				"error": "Failed to login user",
 			})
 			return
 		}
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"message": "Failed to login user",
+			"error": "Failed to login user",
 		})
 		return
 	}

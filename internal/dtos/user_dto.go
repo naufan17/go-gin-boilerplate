@@ -6,15 +6,15 @@ import (
 )
 
 type RegisterDto struct {
-	Name            string `json:"name" binding:"required"`
-	Email           string `json:"email" binding:"required,email"`
-	Password        string `json:"password" binding:"required,min=10"`
-	ConfirmPassword string `json:"confirm_password" binding:"required,eqfield=Password"`
+	Name            string `json:"name" validate:"required"`
+	Email           string `json:"email" validate:"required,email"`
+	Password        string `json:"password" validate:"required,min=10"`
+	ConfirmPassword string `json:"confirm_password" validate:"required,eqfield=Password"`
 }
 
 type LoginDto struct {
-	Email    string `json:"email" binding:"required,email"`
-	Password string `json:"password" binding:"required" min:"10"`
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required" min:"10"`
 }
 
 type ProfileDto struct {

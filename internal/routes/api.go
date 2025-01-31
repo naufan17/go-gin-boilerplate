@@ -9,14 +9,22 @@ import (
 )
 
 func SetupRouter(router *gin.Engine) {
-
 	api := router.Group("/api/v1")
-	// Auth routes
-	api.POST("/auth/register", controllers.Register)
-	api.POST("/auth/login", controllers.Login)
 
-	// User routes
-	api.GET("/user/profile", middewares.AuthenticationMiddleware, controllers.GetProfile)
+	{
+		// Auth routes
+		auth := api.Group("/auth")
+		{
+			auth.POST("/register", controllers.Register)
+			auth.POST("/login", controllers.Login)
+		}
+
+		// User routes
+		user := api.Group("/user")
+		{
+			user.GET("/profile", middewares.AuthenticationMiddleware, controllers.GetProfile)
+		}
+	}
 
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{

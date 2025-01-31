@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	"github.com/naufan17/go-gin-boilerplate/database/seeders"
 	"github.com/naufan17/go-gin-boilerplate/internal/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -49,4 +50,10 @@ func MigrateDB(db *gorm.DB) {
 	} else {
 		log.Println("Database migrated successfully")
 	}
+}
+
+func SeedAll(db *gorm.DB) {
+	seeders.SeedUsers(db)
+
+	log.Println("Database seeded successfully")
 }

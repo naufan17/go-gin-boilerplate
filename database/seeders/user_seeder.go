@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func SeederUsers(db *gorm.DB) {
+func SeedUsers(db *gorm.DB) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte("password"), bcrypt.DefaultCost)
 
 	if err != nil {
@@ -26,8 +26,4 @@ func SeederUsers(db *gorm.DB) {
 	if err := db.Create(&users).Error; err != nil {
 		log.Fatalf("Failed to seed users: %v", err)
 	}
-}
-
-func SeedAll(db *gorm.DB) {
-	SeederUsers(db)
 }

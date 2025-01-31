@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"github.com/naufan17/go-gin-boilerplate/internal/dtos"
-	"github.com/naufan17/go-gin-boilerplate/internal/models"
 	"github.com/naufan17/go-gin-boilerplate/internal/services"
 
 	"github.com/gin-gonic/gin"
@@ -11,31 +10,31 @@ import (
 )
 
 func Register(c *gin.Context) {
-	var user models.User
+	var user dtos.RegisterDto
 
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
+			"message": "Invalid request body",
 		})
 		return
 	}
 
-	user, err := services.RegisterUser(user)
+	_, err := services.RegisterUser(user)
 
 	if err != nil {
-		if err.Error() == "internal server error" {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"message": "Failed to register user",
-			})
-			return
-		} else if err.Error() == "conflict" {
+		if err.Error() == "conflict" {
 			c.JSON(http.StatusConflict, gin.H{
 				"message": "User already exists",
 			})
 			return
+		} else if err.Error() == "internal server error" {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"message": "Failed to register user",
+			})
+			return
 		}
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
+			"message": "Failed to register user",
 		})
 		return
 	}
@@ -46,11 +45,11 @@ func Register(c *gin.Context) {
 }
 
 func Login(c *gin.Context) {
-	var user dtos.LoginDTO
+	var user dtos.LoginDto
 
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
+			"message": "Invalid request body",
 		})
 		return
 	}
@@ -58,9 +57,9 @@ func Login(c *gin.Context) {
 	accessToken, err := services.LoginUser(user)
 
 	if err != nil {
-		if err.Error() == "internal server error" {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"message": "Failed to login user",
+		if err.Error() == "unauthorized" {
+			c.JSON(http.StatusUnauthorized, gin.H{
+				"message": "Email or password is incorrect",
 			})
 			return
 		} else if err.Error() == "not found" {
@@ -68,9 +67,14 @@ func Login(c *gin.Context) {
 				"message": "User not found",
 			})
 			return
+		} else if err.Error() == "internal server error" {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"message": "Failed to login user",
+			})
+			return
 		}
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
+			"message": "Failed to login user",
 		})
 		return
 	}

@@ -22,6 +22,7 @@ func main() {
 
 	configs.SetupCORS(router)
 	configs.SetupSecure(router)
+	configs.RateLimit(router)
 	routes.SetupRouter(router)
 
 	port := os.Getenv("PORT")

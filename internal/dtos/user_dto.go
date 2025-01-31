@@ -6,12 +6,13 @@ import (
 )
 
 type RegisterDto struct {
-	Name     string `json:"name" binding:"required"`
-	Email    string `json:"email" binding:"required,email"`
-	Password string `json:"password" binding:"required" min:"10"`
+	Name            string `json:"name" binding:"required"`
+	Email           string `json:"email" binding:"required,email"`
+	Password        string `json:"password" binding:"required,min=10"`
+	ConfirmPassword string `json:"confirm_password" binding:"required,eqfield=Password"`
 }
 
-type LoginDTO struct {
+type LoginDto struct {
 	Email    string `json:"email" binding:"required,email"`
 	Password string `json:"password" binding:"required" min:"10"`
 }
@@ -22,10 +23,17 @@ type ProfileDto struct {
 	Email string    `json:"email"`
 }
 
-type AccessTokenDTO struct {
+type AccessTokenDto struct {
 	AccessToken string `json:"access_token"`
 	ExpiresIn   int64  `json:"expires_in"`
 	TokenType   string `json:"token_type"`
+}
+
+func ToUserModel(user RegisterDto) models.User {
+	return models.User{
+		Name:     user.Name,
+		Email:    user.Email,
+		Password: user.Password}
 }
 
 func ToProfileDto(user models.User) ProfileDto {

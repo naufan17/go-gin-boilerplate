@@ -21,7 +21,7 @@ func GetProfile(c *gin.Context) {
 			return
 		}
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
+			"message": "Failed to get user profile",
 		})
 		return
 	}

@@ -25,7 +25,6 @@ rm -rf .git
 ```
 - Rename .env.example to .env and fill in the section that must be filled
 
-
 ## Run Server
 - Run server
 ```
@@ -75,7 +74,6 @@ To view the API documentation, open the following link:
 <br/>
 
 ## Response Format
-
 - **Success Response**:
 ```
 {

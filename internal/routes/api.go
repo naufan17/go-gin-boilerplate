@@ -6,6 +6,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/naufan17/go-gin-boilerplate/internal/controllers"
 	"github.com/naufan17/go-gin-boilerplate/internal/middewares"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+
+	_ "github.com/naufan17/go-gin-boilerplate/docs"
 )
 
 func SetupRouter(router *gin.Engine) {
@@ -25,6 +29,8 @@ func SetupRouter(router *gin.Engine) {
 			user.GET("/profile", middewares.AuthenticationMiddleware, controllers.GetProfile)
 		}
 	}
+
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{

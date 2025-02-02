@@ -59,7 +59,7 @@ internal\          # Source code
 ## API Documentation
 To view the API documentation, open the following link:
 <br/>
-``GET /api-docs`` - View API documentation
+``GET /swagger/index.html`` - View API documentation
 
 ## Default API Endpoint
 **Auth routes**:

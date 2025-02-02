@@ -6,6 +6,7 @@ import (
 )
 
 func SetupCORS(router *gin.Engine) {
+	// router.Use(cors.Default())
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"},

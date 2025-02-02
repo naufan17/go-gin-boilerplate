@@ -20,8 +20,9 @@ func main() {
 
 	router := gin.Default()
 
+	// configs.SetupSecure(router)
+	configs.SetupHelmet(router)
 	configs.SetupCORS(router)
-	configs.SetupSecure(router)
 	configs.RateLimit(router)
 	routes.SetupRouter(router)
 

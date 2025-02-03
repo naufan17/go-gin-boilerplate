@@ -24,6 +24,7 @@ func main() {
 	configs.SetupHelmet(router)
 	configs.SetupCORS(router)
 	configs.RateLimit(router)
+	// configs.SetupCompress(router)
 	routes.SetupRouter(router)
 
 	port := os.Getenv("PORT")

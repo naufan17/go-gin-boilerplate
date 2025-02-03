@@ -38,114 +38,84 @@ const docTemplate = `
 			"post": {
 				"summary": "Create new account",
 				"tags": ["Auth"],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"name": {
-										"type": "string",
-										"example": "John Doe"
-									},
-									"email": {
-										"type": "string",
-										"example": "john@example.com"
-									},
-									"password": {
-										"type": "string",
-										"example": "PasswordPassword12"
-									},
-									"confirm_password": {
-										"type": "string",
-										"example": "PasswordPassword12"
-									},
-								}
-							}
+				"parameters": [
+					{
+						"name": "name",
+						"in": "body",
+						"required": true,
+						"schema": {
+							"type": "string"
 						}
 					},
-					"application/x-www-form-urlencoded": {
+					{
+						"name": "email",
+						"in": "body",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "password",
+						"in": "body",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "confirm_password",
+						"in": "body",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"201": {
+						"description": "Account created successfully",
 						"schema": {
 							"type": "object",
 							"properties": {
-								"name": {
-									"type": "string",
-									"example": "John Doe"
-								},
-								"email": {
-									"type": "string",
-									"example": "john@example.com"
-								},
-								"password": {
-									"type": "string",
-									"example": "PasswordPassword12"
-								},
-								"confirm_password": {
-									"type": "string",
-									"example": "PasswordPassword12"
-								}
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "Account created successfully",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+								"message": {
+									"type": "string"
 								}
 							}
 						}
 					},
 					"400": {
 						"description": "Bad request",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"error": {
-											"type": "string"
-										}
-									}
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
 								}
 							}
 						}
 					},
 					"409": {
 						"description": "Email already exists",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"error": {
-											"type": "string"
-										}
-									}
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
 								}
 							}
 						}
 					},
 					"500": {
 						"description": "Error creating account",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"error": {
-											"type": "string"
-										}
-									}
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
 								}
 							}
 						}
@@ -157,62 +127,44 @@ const docTemplate = `
 			"post": {
 				"summary": "Login to existing account",
 				"tags": ["Auth"],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"email": {
-										"type": "string",
-										"example": "jhon@example.com"
-									},
-									"password": {
-										"type": "string",
-										"example": "PasswordPassword12"
-									}
-								}
-							}
+				"parameters": [
+					{
+						"name": "email",
+						"in": "body",
+						"required": true,
+						"schema": {
+							"type": "string"
 						}
 					},
-					"application/x-www-form-urlencoded": {
+					{
+						"name": "password",
+						"in": "body",
+						"required": true,
 						"schema": {
-							"type": "object",
-							"properties": {
-								"email": {
-									"type": "string",
-									"example": "jhon@example.com"
-								},
-								"password": {
-									"type": "string",
-									"example": "PasswordPassword12"
-								}
-							}
+							"type": "string"
 						}
 					}
-				},
+				],
+				"produces": [
+					"application/json"
+				],
 				"responses": {
 					"200": {
 						"description": "Login successful",
-						"content": {
-							"application/json": {
-								"schema": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"data": {
 									"type": "object",
 									"properties": {
-										"data": {
-											"type": "object",
-											"properties": {
-												"accessToken": {
-													"type": "string"
-												},
-												"expiresIn": {
-													"type": "number"
-												},
-												"tokenType": {
-													"type": "string"
-												}
-											}
+										"accessToken": {
+											"type": "string"
+										},
+										"expiresIn": {
+											"type": "number"
+										},
+										"tokenType": {
+											"type": "string"
 										}
 									}
 								}
@@ -221,45 +173,33 @@ const docTemplate = `
 					},
 					"400": {
 						"description": "Bad request",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"error": {
-											"type": "string"
-										}
-									}
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
 								}
 							}
 						}
 					},
 					"401": {
 						"description": "Invalid email or password",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"error": {
-											"type": "string"
-										}
-									}
-								}			
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
+								}
 							}
-						}
+						}			
 					},
 					"500": {
 						"description": "Error logging in",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"error": {
-											"type": "string"
-										}
-									}
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
 								}
 							}
 						}
@@ -271,32 +211,36 @@ const docTemplate = `
 			"get": {
 				"summary": "Get current users",
 				"tags": ["User"],
-				"security": [
+				"parameters": [
 					{
-						"BearerAuth": []
+						"name": "Authorization",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
 					}
+				],
+				"produces": [
+					"application/json"
 				],
 				"responses": {
 					"200": {
 						"description": "Get current users",
-						"content": {
-							"application/json": {
-								"schema": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"data": {
 									"type": "object",
 									"properties": {
-										"data": {
-											"type": "object",
-											"properties": {
-												"id": {
-													"type": "number"
-												},
-												"name": {
-													"type": "string"
-												},
-												"email": {
-													"type": "string"
-												}
-											}
+										"id": {
+											"type": "number"
+										},
+										"name": {
+											"type": "string"
+										},
+										"email": {
+											"type": "string"
 										}
 									}
 								}
@@ -304,31 +248,23 @@ const docTemplate = `
 						}
 					},
 					"401": {
-						"description": "Unauthorized",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"error": {
-											"type": "string"
-										}
-									}
+						"description": "Invalid token",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
 								}
 							}
 						}
 					},
 					"500": {
 						"description": "Error getting users",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"error": {
-											"type": "string"
-										}
-									}
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
 								}
 							}
 						}

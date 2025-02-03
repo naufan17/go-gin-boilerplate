@@ -38,6 +38,7 @@ go run cmd/api/main.go
 - **Security**: using https://github.com/gin-contrib/secure
 - **CORS**: using https://github.com/gin-contrib/cors
 - **Environtment variables**: using https://github.com/joho/godotenv
+- **API documentation**: using https://github.com/swaggo/swag
 - **Dependency management**: using https://github.com/golang/dep
 
 ## Project Structure

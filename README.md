@@ -24,6 +24,15 @@ cd go-gin-boilerplate
 rm -rf .git
 ```
 - Rename .env.example to .env and fill in the section that must be filled
+- Custom your project name
+- Install dependencies
+```
+go mod tidy
+```
+- Run database migration and seed
+```
+go run cmd/database/main.go
+```
 
 ## Run Server
 - Run server

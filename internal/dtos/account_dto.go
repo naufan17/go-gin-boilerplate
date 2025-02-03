@@ -12,13 +12,13 @@ type ProfileDto struct {
 }
 
 type UpdateProfileDto struct {
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	Name  string `json:"name" validate:"required"`
+	Email string `json:"email" validate:"required,email"`
 }
 
 type UpdatePasswordDto struct {
-	Password        string `json:"password"`
-	ConfirmPassword string `json:"confirm_password"`
+	Password        string `json:"password" validate:"required,min=10"`
+	ConfirmPassword string `json:"confirm_password" validate:"required,eqfield=Password"`
 }
 
 func ToProfileDto(user models.User) ProfileDto {

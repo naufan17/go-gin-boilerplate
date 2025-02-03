@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
+	"github.com/naufan17/go-gin-boilerplate/internal/configs"
 	"github.com/naufan17/go-gin-boilerplate/internal/dtos"
 	"github.com/naufan17/go-gin-boilerplate/internal/services"
 	"github.com/naufan17/go-gin-boilerplate/internal/utils"
@@ -19,11 +21,14 @@ func GetProfile(c *gin.Context) {
 			c.JSON(http.StatusNotFound, gin.H{
 				"error": "User not found",
 			})
+
 			return
 		}
+
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "Failed to get user profile",
 		})
+
 		return
 	}
 
@@ -41,17 +46,19 @@ func UpdateProfile(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Invalid request body",
 		})
+
 		return
 	}
 
-	// if err := configs.GetValidator().Struct(user); err != nil {
-	// 	validationErrors := utils.ParseValidationError(err.(validator.ValidationErrors))
+	if validatorErr := configs.GetValidator().Struct(user); validatorErr != nil {
+		errors := utils.ParseValidationError(validatorErr.(validator.ValidationErrors))
 
-	// 	c.JSON(http.StatusBadRequest, gin.H{
-	// 		"errors": validationErrors,
-	// 	})
-	// 	return
-	// }
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": errors,
+		})
+
+		return
+	}
 
 	_, err := services.UpdateProfileUser(user, id)
 
@@ -60,11 +67,14 @@ func UpdateProfile(c *gin.Context) {
 			c.JSON(http.StatusNotFound, gin.H{
 				"error": "User not found",
 			})
+
 			return
 		}
+
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "Failed to update user profile",
 		})
+
 		return
 	}
 
@@ -82,17 +92,19 @@ func UpdatePassword(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Invalid request body",
 		})
+
 		return
 	}
 
-	// if err := configs.GetValidator().Struct(user); err != nil {
-	// 	validationErrors := utils.ParseValidationError(err.(validator.ValidationErrors))
+	if validatorErr := configs.GetValidator().Struct(user); validatorErr != nil {
+		errors := utils.ParseValidationError(validatorErr.(validator.ValidationErrors))
 
-	// 	c.JSON(http.StatusBadRequest, gin.H{
-	// 		"errors": validationErrors,
-	// 	})
-	// 	return
-	// }
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": errors,
+		})
+
+		return
+	}
 
 	_, err := services.UpdatePasswordUser(user, id)
 
@@ -101,16 +113,20 @@ func UpdatePassword(c *gin.Context) {
 			c.JSON(http.StatusNotFound, gin.H{
 				"error": "User not found",
 			})
+
 			return
 		} else if err.Error() == "internal server error" {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"error": "Failed to update user password",
 			})
+
 			return
 		}
+
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "Failed to update user password",
 		})
+
 		return
 	}
 

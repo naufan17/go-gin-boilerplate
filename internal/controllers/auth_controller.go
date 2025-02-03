@@ -1,8 +1,11 @@
 package controllers
 
 import (
+	"github.com/go-playground/validator/v10"
+	"github.com/naufan17/go-gin-boilerplate/internal/configs"
 	"github.com/naufan17/go-gin-boilerplate/internal/dtos"
 	"github.com/naufan17/go-gin-boilerplate/internal/services"
+	"github.com/naufan17/go-gin-boilerplate/internal/utils"
 
 	"github.com/gin-gonic/gin"
 
@@ -16,17 +19,19 @@ func Register(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Invalid request body",
 		})
+
 		return
 	}
 
-	// if err := configs.GetValidator().Struct(user); err != nil {
-	// 	validationErrors := utils.ParseValidationError(err.(validator.ValidationErrors))
+	if validatorErr := configs.GetValidator().Struct(user); validatorErr != nil {
+		errors := utils.ParseValidationError(validatorErr.(validator.ValidationErrors))
 
-	// 	c.JSON(http.StatusBadRequest, gin.H{
-	// 		"errors": validationErrors,
-	// 	})
-	// 	return
-	// }
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": errors,
+		})
+
+		return
+	}
 
 	_, err := services.RegisterUser(user)
 
@@ -35,16 +40,20 @@ func Register(c *gin.Context) {
 			c.JSON(http.StatusConflict, gin.H{
 				"error": "User already exists",
 			})
+
 			return
 		} else if err.Error() == "internal server error" {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"error": "Failed to register user",
 			})
+
 			return
 		}
+
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "Failed to register user",
 		})
+
 		return
 	}
 
@@ -60,17 +69,19 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Invalid request body",
 		})
+
 		return
 	}
 
-	// if err := configs.GetValidator().Struct(user); err != nil {
-	// 	validationErrors := utils.ParseValidationError(err.(validator.ValidationErrors))
+	if validatorErr := configs.GetValidator().Struct(user); validatorErr != nil {
+		errors := utils.ParseValidationError(validatorErr.(validator.ValidationErrors))
 
-	// 	c.JSON(http.StatusBadRequest, gin.H{
-	// 		"errors": validationErrors,
-	// 	})
-	// 	return
-	// }
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": errors,
+		})
+
+		return
+	}
 
 	accessToken, err := services.LoginUser(user)
 
@@ -79,21 +90,26 @@ func Login(c *gin.Context) {
 			c.JSON(http.StatusUnauthorized, gin.H{
 				"error": "Email or password is incorrect",
 			})
+
 			return
 		} else if err.Error() == "not found" {
 			c.JSON(http.StatusNotFound, gin.H{
 				"error": "User not found",
 			})
+
 			return
 		} else if err.Error() == "internal server error" {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"error": "Failed to login user",
 			})
+
 			return
 		}
+
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "Failed to login user",
 		})
+
 		return
 	}
 

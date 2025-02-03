@@ -17,11 +17,11 @@ const docTemplate = `
 	"tags": [
 		{
 			"name": "Auth",
-			"description": "Authentication"
+			"description": "Authentication management"
 		},
 		{
-			"name": "User",
-			"description": "User"
+			"name": "Account",
+			"description": "Account management"
 		}
 	],
 	"components": {
@@ -207,10 +207,10 @@ const docTemplate = `
 				}
 			}
 		},
-		"/api/v1/users/profile": {
+		"/api/v1/account/profile": {
 			"get": {
-				"summary": "Get current users",
-				"tags": ["User"],
+				"summary": "Get current account profile",
+				"tags": ["Account"],
 				"parameters": [
 					{
 						"name": "Authorization",

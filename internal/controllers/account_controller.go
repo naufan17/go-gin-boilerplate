@@ -11,7 +11,7 @@ import (
 func GetProfile(c *gin.Context) {
 	claims := c.MustGet("claims").(*utils.Claims)
 	id := claims.Sub
-	user, err := services.ProfileUser(id)
+	account, err := services.ProfileUser(id)
 
 	if err != nil {
 		if err.Error() == "not found" {
@@ -27,6 +27,6 @@ func GetProfile(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"data": user,
+		"data": account,
 	})
 }

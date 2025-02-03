@@ -23,10 +23,10 @@ func SetupRouter(router *gin.Engine) {
 			auth.POST("/login", controllers.Login)
 		}
 
-		// User routes
-		user := api.Group("/user")
+		// Account routes
+		account := api.Group("/account")
 		{
-			user.GET("/profile", middewares.AuthenticationMiddleware, controllers.GetProfile)
+			account.GET("/profile", middewares.AuthenticationMiddleware, controllers.GetProfile)
 		}
 	}
 

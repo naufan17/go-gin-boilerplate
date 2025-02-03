@@ -7,9 +7,9 @@ host: localhost:8080
 basePath: /
 tags:
   - name: Auth
-    description: Authentication
-  - name: User
-    description: User
+    description: Authentication management
+  - name: Account
+    description: Account management
 components:
   securitySchemes:
     BearerAuth:
@@ -126,10 +126,10 @@ paths:
             properties:
               error:
                 type: string
-  /api/v1/users/profile:
+  /api/v1/account/profile:
     get:
-      summary: Get current user's profile
-      tags: [User]
+      summary: Get current account profile
+      tags: [Account]
       parameters:
         - name: Authorization
           in: header

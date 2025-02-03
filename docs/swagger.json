@@ -10,11 +10,11 @@
     "tags": [
         {
             "name": "Auth",
-            "description": "Auth routes"
+            "description": "Authentication management"
         },
         {
-            "name": "User",
-            "description": "User routes"
+            "name": "Account",
+            "description": "Account management"
         }
     ],
     "components": {
@@ -200,10 +200,10 @@
                 }
             }
         },
-        "/api/v1/users/profile": {
+        "/api/v1/account/profile": {
             "get": {
-                "summary": "Get current users",
-                "tags": ["User"],
+                "summary": "Get current account profile",
+                "tags": ["Account"],
                 "parameters": [
                     {
                         "name": "Authorization",

@@ -1,14 +1,12 @@
 package configs
 
 import (
-	"log"
-	"os"
-
-	"github.com/joho/godotenv"
 	"github.com/naufan17/go-gin-boilerplate/database/seeders"
 	"github.com/naufan17/go-gin-boilerplate/internal/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+
+	"log"
 )
 
 var DB *gorm.DB
@@ -18,17 +16,13 @@ func init() {
 }
 
 func ConnectDB() *gorm.DB {
-	err := godotenv.Load()
+	cfg := LoadConfig()
 
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
-	dbHost := os.Getenv("DB_HOST")
-	dbPort := os.Getenv("DB_PORT")
-	dbUser := os.Getenv("DB_USER")
-	dbPassword := os.Getenv("DB_PASSWORD")
-	dbName := os.Getenv("DB_NAME")
+	dbHost := cfg.DBHost
+	dbPort := cfg.DBPort
+	dbUser := cfg.DBUser
+	dbPassword := cfg.DBPassword
+	dbName := cfg.DBName
 
 	dsn := "host=" + dbHost + " user=" + dbUser + " password=" + dbPassword + " dbname=" + dbName + " port=" + dbPort + " sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})

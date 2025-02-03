@@ -1,10 +1,6 @@
 package main
 
 import (
-	"log"
-	"os"
-
-	"github.com/joho/godotenv"
 	"github.com/naufan17/go-gin-boilerplate/internal/configs"
 	"github.com/naufan17/go-gin-boilerplate/internal/routes"
 
@@ -12,12 +8,6 @@ import (
 )
 
 func main() {
-	err := godotenv.Load()
-
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
 	router := gin.Default()
 
 	// configs.SetupSecure(router)
@@ -27,7 +17,8 @@ func main() {
 	// configs.SetupCompress(router)
 	routes.SetupRouter(router)
 
-	port := os.Getenv("PORT")
+	cfg := configs.LoadConfig()
+	port := cfg.Port
 
 	if port == "" {
 		port = "8080"

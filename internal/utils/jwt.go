@@ -1,16 +1,18 @@
 package utils
 
 import (
-	"os"
+	"strconv"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/google/uuid"
+	"github.com/naufan17/go-gin-boilerplate/internal/configs"
 )
 
 var (
-	jwtSecret = []byte(os.Getenv("JWT_SECRET_KEY"))
-	jwtExp    = 3600000
+	jwtSecret = []byte(configs.LoadConfig().JWTSecret)
+	jwtExpStr = configs.LoadConfig().JWTExp
+	jwtExp, _ = strconv.Atoi(jwtExpStr)
 )
 
 type Claims struct {

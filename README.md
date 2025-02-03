@@ -34,9 +34,11 @@ go run cmd/api/main.go
 ## Feature
 - **ORM**: using https://gorm.io/
 - **Authentication**: using https://github.com/dgrijalva/jwt-go
+- **Validation**: using https://github.com/go-playground/validator/v10
 - **Rate Limit**: using https://golang.org/x/time/rate
 - **Security**: using https://github.com/gin-contrib/secure
 - **CORS**: using https://github.com/gin-contrib/cors
+- **Compression**: using https://github.com/gin-contrib/gzip
 - **Environtment variables**: using https://github.com/joho/godotenv
 - **API documentation**: using https://github.com/swaggo/swag
 - **Dependency management**: using https://github.com/golang/dep
@@ -73,6 +75,9 @@ To view the API documentation, open the following link:
 <br/>
 ``GET /api/v1/account/profile`` - Get current account profile
 <br/>
+``POST /api/v1/account/update-profile`` - Update current account profile
+<br/>
+``POST /api/v1/account/update-password`` - Update current account password
 
 ## Response Format
 - **Success Response**:

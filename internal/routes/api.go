@@ -27,6 +27,8 @@ func SetupRouter(router *gin.Engine) {
 		account := api.Group("/account")
 		{
 			account.GET("/profile", middewares.AuthenticationMiddleware, controllers.GetProfile)
+			account.POST("/update-profile", middewares.AuthenticationMiddleware, controllers.UpdateProfile)
+			account.POST("/update-password", middewares.AuthenticationMiddleware, controllers.UpdatePassword)
 		}
 	}
 

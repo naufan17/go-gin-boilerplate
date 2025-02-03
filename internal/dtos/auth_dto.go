@@ -1,9 +1,6 @@
 package dtos
 
-import (
-	"github.com/google/uuid"
-	"github.com/naufan17/go-gin-boilerplate/internal/models"
-)
+import "github.com/naufan17/go-gin-boilerplate/internal/models"
 
 type RegisterDto struct {
 	Name            string `json:"name" validate:"required"`
@@ -17,12 +14,6 @@ type LoginDto struct {
 	Password string `json:"password" validate:"required" min:"10"`
 }
 
-type ProfileDto struct {
-	ID    uuid.UUID `json:"id"`
-	Name  string    `json:"name"`
-	Email string    `json:"email"`
-}
-
 type AccessTokenDto struct {
 	AccessToken string `json:"access_token"`
 	ExpiresIn   int64  `json:"expires_in"`
@@ -34,12 +25,4 @@ func ToUserModel(user RegisterDto) models.User {
 		Name:     user.Name,
 		Email:    user.Email,
 		Password: user.Password}
-}
-
-func ToProfileDto(user models.User) ProfileDto {
-	return ProfileDto{
-		ID:    user.ID,
-		Name:  user.Name,
-		Email: user.Email,
-	}
 }

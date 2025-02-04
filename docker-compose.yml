@@ -1,21 +1,9 @@
 version: "3.9"
 
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-    env_file:
-      - .env
-    depends_on:
-      - database
-    networks:
-      - app-network
-
   database:
     image: postgres:15-alpine
+    container_name: database-postgres
     environment:
       - "POSTGRES_USER=${DB_USER}"
       - "POSTGRES_PASSWORD=${DB_PASSWORD}"
@@ -25,11 +13,27 @@ services:
     networks:
       - app-network
     ports:
-      - "${DB_PORT}:${DB_PORT}"
+      - "5432:${DB_PORT}"
+    restart: always
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: go-gin-boilerplate
+    ports:
+      - "8080:${PORT}"
+    env_file:
+      - .env
+    depends_on:
+      - database
+    networks:
+      - app-network
+    restart: always
   
+volumes:
+  db-data:   
+
 networks:
   app-network:
     driver: bridge
-
-volumes:
-  db-data:   

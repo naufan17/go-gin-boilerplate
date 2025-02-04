@@ -1,4 +1,4 @@
-# Bolierplate Golang REST API
+# Boilerplate Golang REST API
 Minimalist project structure using Gin to build REST API
 
 ## Table of Content
@@ -38,6 +38,16 @@ go run cmd/database/main.go
 - Run server
 ```
 go run cmd/api/main.go
+```
+
+## Run Server with Docker Compose(not fixed yet)
+- Run server
+```
+docker compose up --build
+```
+- Stop server
+```
+docker compose down
 ```
 
 ## Feature

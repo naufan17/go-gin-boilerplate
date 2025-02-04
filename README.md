@@ -40,7 +40,7 @@ go run cmd/database/main.go
 go run cmd/api/main.go
 ```
 
-## Run Server with Docker Compose(not fixed yet)
+## Run Server with Docker Compose
 - Run server
 ```
 docker compose up --build

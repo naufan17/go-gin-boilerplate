@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/naufan17/go-gin-boilerplate/internal/configs"
-	"github.com/naufan17/go-gin-boilerplate/internal/routes"
+	"github.com/naufan17/go-gin-boilerplate/api/routes"
+	"github.com/naufan17/go-gin-boilerplate/config"
 
 	"github.com/gin-gonic/gin"
 )
@@ -10,14 +10,14 @@ import (
 func main() {
 	router := gin.Default()
 
-	// configs.SetupSecure(router)
-	configs.SetupHelmet(router)
-	configs.SetupCORS(router)
-	configs.RateLimit(router)
-	// configs.SetupCompress(router)
-	routes.SetupRouter(router)
+	// config.SetupSecure(router)
+	config.SetupHelmet(router)
+	config.SetupCORS(router)
+	config.RateLimit(router)
+	// config.SetupCompress(router)
+	routes.ApiRoutes(router)
 
-	cfg := configs.LoadConfig()
+	cfg := config.LoadConfig()
 	port := cfg.Port
 
 	if port == "" {

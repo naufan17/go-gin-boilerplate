@@ -4,9 +4,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/naufan17/go-gin-boilerplate/internal/utils"
-
 	"github.com/gin-gonic/gin"
+	"github.com/naufan17/go-gin-boilerplate/pkg/auth"
 )
 
 func AuthenticationMiddleware(c *gin.Context) {
@@ -21,7 +20,7 @@ func AuthenticationMiddleware(c *gin.Context) {
 	}
 
 	token := strings.TrimPrefix(authHeader, "Bearer ")
-	claims, err := utils.ValidateJWT(token)
+	claims, err := auth.ValidateJWT(token)
 
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{

@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/naufan17/go-gin-boilerplate/internal/controllers"
+	"github.com/naufan17/go-gin-boilerplate/internal/handlers"
 	"github.com/naufan17/go-gin-boilerplate/internal/middewares"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -12,23 +12,23 @@ import (
 	_ "github.com/naufan17/go-gin-boilerplate/docs"
 )
 
-func SetupRouter(router *gin.Engine) {
+func ApiRoutes(router *gin.Engine) {
 	api := router.Group("/api/v1")
 
 	{
 		// Auth routes
 		auth := api.Group("/auth")
 		{
-			auth.POST("/register", controllers.Register)
-			auth.POST("/login", controllers.Login)
+			auth.POST("/register", handlers.Register)
+			auth.POST("/login", handlers.Login)
 		}
 
 		// Account routes
 		account := api.Group("/account")
 		{
-			account.GET("/profile", middewares.AuthenticationMiddleware, controllers.GetProfile)
-			account.POST("/update-profile", middewares.AuthenticationMiddleware, controllers.UpdateProfile)
-			account.POST("/update-password", middewares.AuthenticationMiddleware, controllers.UpdatePassword)
+			account.GET("/profile", middewares.AuthenticationMiddleware, handlers.GetProfile)
+			account.POST("/update-profile", middewares.AuthenticationMiddleware, handlers.UpdateProfile)
+			account.POST("/update-password", middewares.AuthenticationMiddleware, handlers.UpdatePassword)
 		}
 	}
 

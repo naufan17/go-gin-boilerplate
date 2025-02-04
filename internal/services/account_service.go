@@ -2,9 +2,9 @@ package services
 
 import (
 	"github.com/google/uuid"
-	"github.com/naufan17/go-gin-boilerplate/internal/dtos"
+	"github.com/naufan17/go-gin-boilerplate/api/dtos"
 	"github.com/naufan17/go-gin-boilerplate/internal/repositories"
-	"golang.org/x/crypto/bcrypt"
+	"github.com/naufan17/go-gin-boilerplate/pkg/auth"
 
 	"errors"
 )
@@ -30,7 +30,7 @@ func UpdateProfileUser(user dtos.UpdateProfileDto, id uuid.UUID) (dtos.ProfileDt
 }
 
 func UpdatePasswordUser(user dtos.UpdatePasswordDto, id uuid.UUID) (dtos.ProfileDto, error) {
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	hashedPassword, err := auth.HashPassword(user.Password)
 
 	if err != nil {
 		return dtos.ProfileDto{}, errors.New("internal server error")

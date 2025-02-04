@@ -1,18 +1,19 @@
-package controllers
+package handlers
 
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"github.com/naufan17/go-gin-boilerplate/internal/configs"
-	"github.com/naufan17/go-gin-boilerplate/internal/dtos"
+	"github.com/naufan17/go-gin-boilerplate/api/dtos"
+	"github.com/naufan17/go-gin-boilerplate/config"
 	"github.com/naufan17/go-gin-boilerplate/internal/services"
-	"github.com/naufan17/go-gin-boilerplate/internal/utils"
+	"github.com/naufan17/go-gin-boilerplate/pkg/auth"
+	"github.com/naufan17/go-gin-boilerplate/pkg/utils"
 
 	"net/http"
 )
 
 func GetProfile(c *gin.Context) {
-	claims := c.MustGet("claims").(*utils.Claims)
+	claims := c.MustGet("claims").(*auth.Claims)
 	id := claims.Sub
 	user, err := services.ProfileUser(id)
 
@@ -38,7 +39,7 @@ func GetProfile(c *gin.Context) {
 }
 
 func UpdateProfile(c *gin.Context) {
-	claims := c.MustGet("claims").(*utils.Claims)
+	claims := c.MustGet("claims").(*auth.Claims)
 	id := claims.Sub
 	var user dtos.UpdateProfileDto
 
@@ -50,7 +51,7 @@ func UpdateProfile(c *gin.Context) {
 		return
 	}
 
-	if validatorErr := configs.GetValidator().Struct(user); validatorErr != nil {
+	if validatorErr := config.GetValidator().Struct(user); validatorErr != nil {
 		errors := utils.ParseValidationError(validatorErr.(validator.ValidationErrors))
 
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -84,7 +85,7 @@ func UpdateProfile(c *gin.Context) {
 }
 
 func UpdatePassword(c *gin.Context) {
-	claims := c.MustGet("claims").(*utils.Claims)
+	claims := c.MustGet("claims").(*auth.Claims)
 	id := claims.Sub
 	var user dtos.UpdatePasswordDto
 
@@ -96,7 +97,7 @@ func UpdatePassword(c *gin.Context) {
 		return
 	}
 
-	if validatorErr := configs.GetValidator().Struct(user); validatorErr != nil {
+	if validatorErr := config.GetValidator().Struct(user); validatorErr != nil {
 		errors := utils.ParseValidationError(validatorErr.(validator.ValidationErrors))
 
 		c.JSON(http.StatusBadRequest, gin.H{

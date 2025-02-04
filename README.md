@@ -54,17 +54,23 @@ go run cmd/api/main.go
 
 ## Project Structure
 ```
-cmd\               # Commands
-database\          # Database seed
-internal\          # Source code
-  |--configs\      # Configuration
-  |--controllers\  # API controllers
+api\
+  |--routes\       # API routes
   |--dtos\         # Data transfer object
+cmd\
+  |--api\          # Command to run server
+  |--database\     # Command database migration and seeder          
+config\            # Configuration
+database\
+  |--seeders\      # Database seeder
+internal\
+  |--controllers\  # API controllers
   |--middlewares\  # Middleware
   |--models\       # Database models
   |--repositories\ # Database queries
-  |--routes\       # API routes
   |--services\     # Business logic
+pkg\
+  |--auth\         # Authentication
   |--utils\        # Utility function
 ```
 

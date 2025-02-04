@@ -1,17 +1,16 @@
 package services
 
 import (
-	"github.com/naufan17/go-gin-boilerplate/internal/dtos"
+	"github.com/naufan17/go-gin-boilerplate/api/dtos"
 	"github.com/naufan17/go-gin-boilerplate/internal/models"
 	"github.com/naufan17/go-gin-boilerplate/internal/repositories"
-	"github.com/naufan17/go-gin-boilerplate/internal/utils"
-	"golang.org/x/crypto/bcrypt"
+	"github.com/naufan17/go-gin-boilerplate/pkg/auth"
 
 	"errors"
 )
 
 func RegisterUser(user dtos.RegisterDto) (models.User, error) {
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	hashedPassword, err := auth.HashPassword(user.Password)
 
 	if err != nil {
 		return models.User{}, errors.New("internal server error")
@@ -35,11 +34,11 @@ func LoginUser(user dtos.LoginDto) (dtos.AccessTokenDto, error) {
 		return dtos.AccessTokenDto{}, errors.New("not found")
 	}
 
-	if !utils.ComparePassword(user.Password, userFromDB.Password) {
+	if !auth.ComparePassword(user.Password, userFromDB.Password) {
 		return dtos.AccessTokenDto{}, errors.New("unauthorized")
 	}
 
-	accessToken, expiresIn, tokenType, err := utils.GenerateJWT(userFromDB.ID)
+	accessToken, expiresIn, tokenType, err := auth.GenerateJWT(userFromDB.ID)
 
 	if err != nil {
 		return dtos.AccessTokenDto{}, errors.New("internal server error")

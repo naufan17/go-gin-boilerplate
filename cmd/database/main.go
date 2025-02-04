@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/naufan17/go-gin-boilerplate/internal/configs"
+	"github.com/naufan17/go-gin-boilerplate/config"
 )
 
 func main() {
-	db := configs.ConnectDB()
+	db := config.ConnectDB()
 
-	configs.MigrateDB(db)
-	configs.SeedAll(db)
+	config.MigrateDB(db)
+	config.SeedAll(db)
 }

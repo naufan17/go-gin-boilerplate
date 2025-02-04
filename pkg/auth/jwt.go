@@ -1,4 +1,4 @@
-package utils
+package auth
 
 import (
 	"strconv"
@@ -6,7 +6,7 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/google/uuid"
-	"github.com/naufan17/go-gin-boilerplate/internal/configs"
+	configs "github.com/naufan17/go-gin-boilerplate/config"
 )
 
 var (

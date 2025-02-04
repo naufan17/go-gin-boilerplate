@@ -3,7 +3,8 @@ Minimalist project structure using Gin to build REST API
 
 ## Table of Content
 - [Preparation](#preparation)
-- [Run Server](#run-server)
+- [Run Server Locally](#run-server-locally)
+- [Run Server with Docker Compose](#run-server-with-docker-compose)
 - [Feature](#feature)
 - [Project Structure](#project-structure)
 - [API Documentation](#api-documentation)
@@ -27,14 +28,14 @@ rm -rf .git
 - Custom your project name
 - Install dependencies
 ```
-go mod tidy
+go mod download
 ```
 - Run database migration and seed
 ```
 go run cmd/database/main.go
 ```
 
-## Run Server
+## Run Server Locally
 - Run server
 ```
 go run cmd/api/main.go

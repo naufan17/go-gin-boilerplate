@@ -64,7 +64,7 @@ config\            # Configuration
 database\
   |--seeders\      # Database seeder
 internal\
-  |--controllers\  # API controllers
+  |--handlers\     # Request handlers
   |--middlewares\  # Middleware
   |--models\       # Database models
   |--repositories\ # Database queries

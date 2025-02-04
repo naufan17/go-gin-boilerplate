@@ -26,9 +26,9 @@ func ApiRoutes(router *gin.Engine) {
 		// Account routes
 		account := api.Group("/account")
 		{
-			account.GET("/profile", middewares.AuthenticationMiddleware, handlers.GetProfile)
-			account.POST("/update-profile", middewares.AuthenticationMiddleware, handlers.UpdateProfile)
-			account.POST("/update-password", middewares.AuthenticationMiddleware, handlers.UpdatePassword)
+			account.GET("/profile", middewares.AuthenticateJWT, handlers.GetProfile)
+			account.POST("/update-profile", middewares.AuthenticateJWT, handlers.UpdateProfile)
+			account.POST("/update-password", middewares.AuthenticateJWT, handlers.UpdatePassword)
 		}
 	}
 

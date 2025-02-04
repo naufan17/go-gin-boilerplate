@@ -13,7 +13,7 @@ func main() {
 	// config.SetupSecure(router)
 	config.SetupHelmet(router)
 	config.SetupCORS(router)
-	config.RateLimit(router)
+	config.SetupRateLimit(router)
 	// config.SetupCompress(router)
 	routes.ApiRoutes(router)
 

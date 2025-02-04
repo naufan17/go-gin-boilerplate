@@ -8,7 +8,7 @@ import (
 	"github.com/naufan17/go-gin-boilerplate/pkg/auth"
 )
 
-func AuthenticationMiddleware(c *gin.Context) {
+func AuthenticateJWT(c *gin.Context) {
 	authHeader := c.GetHeader("Authorization")
 
 	if authHeader == "" {

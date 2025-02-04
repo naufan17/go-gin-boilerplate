@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func RateLimit(router *gin.Engine) {
+func SetupRateLimit(router *gin.Engine) {
 	limiter := rate.NewLimiter(rate.Every(10*time.Minute), 100)
 
 	router.Use(func(c *gin.Context) {

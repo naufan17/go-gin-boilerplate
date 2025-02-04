@@ -2,7 +2,7 @@ package services
 
 import (
 	"github.com/google/uuid"
-	"github.com/naufan17/go-gin-boilerplate/api/dtos"
+	"github.com/naufan17/go-gin-boilerplate/internal/dtos"
 	"github.com/naufan17/go-gin-boilerplate/internal/repositories"
 	"github.com/naufan17/go-gin-boilerplate/pkg/auth"
 

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/naufan17/go-gin-boilerplate/api/routes"
 	"github.com/naufan17/go-gin-boilerplate/config"
+	"github.com/naufan17/go-gin-boilerplate/routes"
 
 	"github.com/gin-gonic/gin"
 )

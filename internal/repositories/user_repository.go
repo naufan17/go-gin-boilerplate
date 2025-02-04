@@ -2,8 +2,8 @@ package repositories
 
 import (
 	"github.com/google/uuid"
-	"github.com/naufan17/go-gin-boilerplate/api/dtos"
 	configs "github.com/naufan17/go-gin-boilerplate/config"
+	"github.com/naufan17/go-gin-boilerplate/internal/dtos"
 	"github.com/naufan17/go-gin-boilerplate/internal/models"
 )
 

@@ -65,10 +65,6 @@ docker compose down
 
 ## Project Structure
 ```
-api\
-  |--dtos\         # Data transfer object
-  |--handlers\     # Request handlers
-  |--routes\       # API routes
 cmd\
   |--api\          # Command to run server
   |--database\     # Command database migration and seeder          
@@ -76,6 +72,8 @@ config\            # Configuration
 database\
   |--seeders\      # Database seeder
 internal\
+  |--dtos\         # Data transfer object
+  |--handlers\     # Request handlers
   |--middlewares\  # Middleware
   |--models\       # Database models
   |--repositories\ # Database queries
@@ -83,6 +81,7 @@ internal\
 pkg\
   |--auth\         # Authentication
   |--utils\        # Utility function
+routes\            # API routes
 ```
 
 ## API Documentation

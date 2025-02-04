@@ -25,7 +25,7 @@ FROM alpine:latest
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the binary from the builder stage
+# Copy the binaries from the builder stage
 COPY --from=builder /app/cmd/api/main .
 COPY --from=builder /app/.env .
 

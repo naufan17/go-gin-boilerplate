@@ -25,6 +25,8 @@ services:
       - "8080:${PORT}"
     env_file:
       - .env
+    environment:
+      - DB_HOST=database
     depends_on:
       - database
     networks:

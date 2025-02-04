@@ -1,7 +1,7 @@
 package services
 
 import (
-	"github.com/naufan17/go-gin-boilerplate/api/dtos"
+	"github.com/naufan17/go-gin-boilerplate/internal/dtos"
 	"github.com/naufan17/go-gin-boilerplate/internal/models"
 	"github.com/naufan17/go-gin-boilerplate/internal/repositories"
 	"github.com/naufan17/go-gin-boilerplate/pkg/auth"

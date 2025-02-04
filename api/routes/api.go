@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/naufan17/go-gin-boilerplate/internal/handlers"
+	"github.com/naufan17/go-gin-boilerplate/api/handlers"
 	"github.com/naufan17/go-gin-boilerplate/internal/middewares"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"

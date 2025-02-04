@@ -41,22 +41,24 @@ go run cmd/api/main.go
 ```
 
 ## Feature
+- **Database**: using https://gorm.io/driver/postgres
 - **ORM**: using https://gorm.io/
 - **Authentication**: using https://github.com/dgrijalva/jwt-go
 - **Validation**: using https://github.com/go-playground/validator/v10
 - **Rate Limit**: using https://golang.org/x/time/rate
-- **Security**: using https://github.com/gin-contrib/secure
+- **Security**: using https://github.com/gin-contrib/secure or github.com/danielkov/gin-helmet
 - **CORS**: using https://github.com/gin-contrib/cors
 - **Compression**: using https://github.com/gin-contrib/gzip
 - **Environtment variables**: using https://github.com/joho/godotenv
-- **API documentation**: using https://github.com/swaggo/swag
+- **API documentation**: using https://github.com/swaggo/swag, https://github.com/swaggo/gin-swagger and https://github.com/swaggo/files
 - **Dependency management**: using https://github.com/golang/dep
 
 ## Project Structure
 ```
 api\
-  |--routes\       # API routes
   |--dtos\         # Data transfer object
+  |--handlers\     # Request handlers
+  |--routes\       # API routes
 cmd\
   |--api\          # Command to run server
   |--database\     # Command database migration and seeder          
@@ -64,7 +66,6 @@ config\            # Configuration
 database\
   |--seeders\      # Database seeder
 internal\
-  |--handlers\     # Request handlers
   |--middlewares\  # Middleware
   |--models\       # Database models
   |--repositories\ # Database queries

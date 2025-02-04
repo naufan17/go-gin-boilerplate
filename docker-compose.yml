@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      - database
+    networks:
+      - app-network
+
+  database:
+    image: postgres:15-alpine
+    environment:
+      - "POSTGRES_USER=${DB_USER}"
+      - "POSTGRES_PASSWORD=${DB_PASSWORD}"
+      - "POSTGRES_DB=${DB_NAME}"
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+    networks:
+      - app-network
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+  
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db-data:   

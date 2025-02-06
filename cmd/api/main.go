@@ -15,6 +15,9 @@ func main() {
 	config.SetupCORS(router)
 	config.SetupRateLimit(router)
 	// config.SetupCompress(router)
+
+	router.Use(gin.Logger())
+	router.Use(gin.Recovery())
 	routes.ApiRoutes(router)
 
 	cfg := config.LoadConfig()

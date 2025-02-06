@@ -6,12 +6,12 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/google/uuid"
-	configs "github.com/naufan17/go-gin-boilerplate/config"
+	"github.com/naufan17/go-gin-boilerplate/config"
 )
 
 var (
-	jwtSecret = []byte(configs.LoadConfig().JWTSecret)
-	jwtExpStr = configs.LoadConfig().JWTExp
+	jwtSecret = []byte(config.LoadConfig().JWTSecret)
+	jwtExpStr = config.LoadConfig().JWTExp
 	jwtExp, _ = strconv.Atoi(jwtExpStr)
 )
 

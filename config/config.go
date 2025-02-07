@@ -8,14 +8,18 @@ import (
 )
 
 type Config struct {
-	Port       string
-	DBName     string
-	DBUser     string
-	DBPassword string
-	DBHost     string
-	DBPort     string
-	JWTSecret  string
-	JWTExp     string
+	GinMode       string
+	Port          string
+	DBName        string
+	DBUser        string
+	DBPassword    string
+	DBHost        string
+	DBPort        string
+	JWTSecret     string
+	JWTExp        string
+	AllowedOrigin string
+	MaxRequests   string
+	WindowTime    string
 }
 
 func LoadConfig() *Config {
@@ -26,14 +30,18 @@ func LoadConfig() *Config {
 	}
 
 	return &Config{
-		Port:       Getenv("PORT"),
-		DBName:     Getenv("DB_NAME"),
-		DBUser:     Getenv("DB_USER"),
-		DBPassword: Getenv("DB_PASSWORD"),
-		DBHost:     Getenv("DB_HOST"),
-		DBPort:     Getenv("DB_PORT"),
-		JWTSecret:  Getenv("JWT_SECRET_KEY"),
-		JWTExp:     Getenv("JWT_EXPIRE_IN"),
+		GinMode:       Getenv("GIN_MODE"),
+		Port:          Getenv("PORT"),
+		DBName:        Getenv("DB_NAME"),
+		DBUser:        Getenv("DB_USER"),
+		DBPassword:    Getenv("DB_PASSWORD"),
+		DBHost:        Getenv("DB_HOST"),
+		DBPort:        Getenv("DB_PORT"),
+		JWTSecret:     Getenv("JWT_SECRET_KEY"),
+		JWTExp:        Getenv("JWT_EXPIRE_IN"),
+		AllowedOrigin: Getenv("ALLOWED_ORIGIN"),
+		MaxRequests:   Getenv("MAX_REQUESTS"),
+		WindowTime:    Getenv("WINDOW_TIME"),
 	}
 }
 

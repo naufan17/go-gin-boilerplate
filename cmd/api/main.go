@@ -8,6 +8,16 @@ import (
 )
 
 func main() {
+	env := config.LoadConfig().GinMode
+
+	if env == "release" {
+		gin.SetMode(gin.ReleaseMode)
+	} else if env == "test" {
+		gin.SetMode(gin.TestMode)
+	} else {
+		gin.SetMode(gin.DebugMode)
+	}
+
 	router := gin.Default()
 
 	// config.SetupSecure(router)

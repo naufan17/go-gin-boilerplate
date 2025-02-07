@@ -14,16 +14,13 @@ import (
 
 func ApiRoutes(router *gin.Engine) {
 	api := router.Group("/api/v1")
-
 	{
-		// Auth routes
 		auth := api.Group("/auth")
 		{
 			auth.POST("/register", handlers.Register)
 			auth.POST("/login", handlers.Login)
 		}
 
-		// Account routes
 		account := api.Group("/account")
 		{
 			account.GET("/profile", middewares.AuthenticateJWT, handlers.GetProfile)
@@ -33,8 +30,6 @@ func ApiRoutes(router *gin.Engine) {
 	}
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
-	router.GET("/health", handlers.HealthCheck)
 
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{

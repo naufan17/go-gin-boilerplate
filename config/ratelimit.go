@@ -16,9 +16,11 @@ func SetupRateLimit(router *gin.Engine) {
 			c.JSON(http.StatusTooManyRequests, gin.H{
 				"error": "Too many requests, please try again later",
 			})
+
 			c.Abort()
 			return
 		}
+
 		c.Next()
 	})
 }

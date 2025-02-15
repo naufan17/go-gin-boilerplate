@@ -31,9 +31,8 @@ FROM alpine:latest
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the binaries from the builder stage
+# Copy the binaries and environment variables from the builder stage
 COPY --from=builder /app/cmd/api/main .
-# COPY --from=builder /app/cmd/database/main .
 COPY --from=builder /app/.env .
 
 # Expose the port on which the application will run

@@ -15,6 +15,7 @@ func AuthenticateJWT(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"error": "Authorization header is required",
 		})
+
 		c.Abort()
 		return
 	}
@@ -26,6 +27,7 @@ func AuthenticateJWT(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"error": "Invalid token",
 		})
+
 		c.Abort()
 		return
 	}

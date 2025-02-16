@@ -3,7 +3,7 @@ version: "3.9"
 services:
   database:
     image: postgres:15-alpine
-    container_name: database-postgres
+    container_name: database-postgres-gin
     environment:
       - "POSTGRES_USER=${DB_USER}"
       - "POSTGRES_PASSWORD=${DB_PASSWORD}"
@@ -26,6 +26,7 @@ services:
     env_file:
       - .env
     environment:
+      - GIN_MODE=release
       - DB_HOST=database
     depends_on:
       - database

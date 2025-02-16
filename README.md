@@ -30,15 +30,19 @@ rm -rf .git
 ```
 go mod download
 ```
-- Run database migration and seed
+- Run database migration
 ```
-go run cmd/database/main.go
+go run cmd/database/migration/main.go
+```
+- Run database seeder
+```
+go run cmd/database/seeder/main.go
 ```
 
 ## Run Server Locally
 - Run server
 ```
-go run cmd/api/main.go
+go run cmd/server/main.go
 ```
 
 ## Run Server with Docker Compose
@@ -67,7 +71,7 @@ docker compose down
 ## Project Structure
 ```
 cmd\
-  |--api\          # Command to run server
+  |--server\       # Command to run server
   |--database\     # Command database migration and seeder          
 config\            # Configuration
 database\

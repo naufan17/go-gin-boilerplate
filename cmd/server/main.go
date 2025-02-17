@@ -34,9 +34,5 @@ func main() {
 	cfg := config.LoadConfig()
 	port := cfg.Port
 
-	if port == "" {
-		port = "8080"
-	}
-
 	router.Run(":" + port)
 }

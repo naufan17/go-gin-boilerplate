@@ -1,6 +1,8 @@
 package config
 
 import (
+	"strconv"
+
 	"github.com/naufan17/go-gin-boilerplate/database/seeders"
 	"github.com/naufan17/go-gin-boilerplate/internal/models"
 	"gorm.io/driver/postgres"
@@ -19,19 +21,36 @@ func ConnectDB() *gorm.DB {
 	cfg := LoadConfig()
 
 	dbHost := cfg.DBHost
-	dbPort := cfg.DBPort
 	dbUser := cfg.DBUser
 	dbPassword := cfg.DBPassword
 	dbName := cfg.DBName
+	dbPort := cfg.DBPort
+	dbSsl := cfg.DBSsl
+	dbTimezone := cfg.DBTimezone
+	dbMaxIdle, err := strconv.Atoi(cfg.DBMaxIdle)
+	dbMaxOpen, err := strconv.Atoi(cfg.DBMaxOpen)
 
-	dsn := "host=" + dbHost + " user=" + dbUser + " password=" + dbPassword + " dbname=" + dbName + " port=" + dbPort + " sslmode=disable"
+	if err != nil {
+		log.Fatal("Invalid DBMaxIdle or DBMaxOpen value")
+	}
+
+	dsn := "host=" + dbHost + " user=" + dbUser + " password=" + dbPassword + " dbname=" + dbName + " port=" + dbPort + " sslmode=" + dbSsl + " TimeZone=" + dbTimezone
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
-		log.Fatal("Failed to connect to database", err)
-	} else {
-		log.Println("Connected to database")
+		log.Fatal("Failed to connect to database:", err)
 	}
+
+	sqlDB, err := db.DB()
+
+	if err != nil {
+		log.Fatal("Failed to get SQL DB from GORM:", err)
+	}
+
+	sqlDB.SetMaxIdleConns(dbMaxIdle)
+	sqlDB.SetMaxOpenConns(dbMaxOpen)
+
+	log.Println("Connected to database")
 
 	return db
 }

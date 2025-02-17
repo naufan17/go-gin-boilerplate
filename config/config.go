@@ -15,6 +15,10 @@ type Config struct {
 	DBPassword    string
 	DBHost        string
 	DBPort        string
+	DBSsl         string
+	DBTimezone    string
+	DBMaxIdle     string
+	DBMaxOpen     string
 	JWTSecret     string
 	JWTExp        string
 	AllowedOrigin string
@@ -37,6 +41,10 @@ func LoadConfig() *Config {
 		DBPassword:    Getenv("DB_PASSWORD"),
 		DBHost:        Getenv("DB_HOST"),
 		DBPort:        Getenv("DB_PORT"),
+		DBSsl:         Getenv("DB_SSL"),
+		DBTimezone:    Getenv("DB_TIMEZONE"),
+		DBMaxIdle:     Getenv("DB_MAX_IDLE_CONNS"),
+		DBMaxOpen:     Getenv("DB_MAX_OPEN_CONNS"),
 		JWTSecret:     Getenv("JWT_SECRET_KEY"),
 		JWTExp:        Getenv("JWT_EXPIRE_IN"),
 		AllowedOrigin: Getenv("ALLOWED_ORIGIN"),

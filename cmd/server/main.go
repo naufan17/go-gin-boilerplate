@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/naufan17/go-gin-boilerplate/config"
-	"github.com/naufan17/go-gin-boilerplate/routes"
+	routes "github.com/naufan17/go-gin-boilerplate/route"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,6 +28,7 @@ func main() {
 
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
+
 	routes.ApiRoutes(router)
 
 	cfg := config.LoadConfig()

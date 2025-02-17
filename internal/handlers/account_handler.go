@@ -7,7 +7,7 @@ import (
 	"github.com/naufan17/go-gin-boilerplate/internal/dtos"
 	"github.com/naufan17/go-gin-boilerplate/internal/services"
 	"github.com/naufan17/go-gin-boilerplate/pkg/auth"
-	"github.com/naufan17/go-gin-boilerplate/pkg/utils"
+	"github.com/naufan17/go-gin-boilerplate/pkg/util"
 
 	"net/http"
 )
@@ -52,7 +52,7 @@ func UpdateProfile(c *gin.Context) {
 	}
 
 	if validatorErr := config.GetValidator().Struct(user); validatorErr != nil {
-		errors := utils.ParseValidationError(validatorErr.(validator.ValidationErrors))
+		errors := util.ParseValidationError(validatorErr.(validator.ValidationErrors))
 
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": errors,
@@ -98,7 +98,7 @@ func UpdatePassword(c *gin.Context) {
 	}
 
 	if validatorErr := config.GetValidator().Struct(user); validatorErr != nil {
-		errors := utils.ParseValidationError(validatorErr.(validator.ValidationErrors))
+		errors := util.ParseValidationError(validatorErr.(validator.ValidationErrors))
 
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": errors,

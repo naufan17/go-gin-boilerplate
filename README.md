@@ -61,7 +61,7 @@ docker compose down
 - **Authentication**: using https://github.com/dgrijalva/jwt-go
 - **Validation**: using https://github.com/go-playground/validator/v10
 - **Rate Limit**: using https://golang.org/x/time/rate
-- **Security**: using https://github.com/gin-contrib/secure or github.com/danielkov/gin-helmet
+- **Security**: using https://github.com/gin-contrib/secure or https://github.com/danielkov/gin-helmet
 - **CORS**: using https://github.com/gin-contrib/cors
 - **Compression**: using https://github.com/gin-contrib/gzip
 - **Environtment variables**: using https://github.com/joho/godotenv
@@ -85,8 +85,8 @@ internal\
   |--services\     # Business logic
 pkg\
   |--auth\         # Authentication
-  |--utils\        # Utility function
-routes\            # API routes
+  |--util\         # Utility function
+route\             # API routes
 ```
 
 ## API Documentation
@@ -97,17 +97,17 @@ To view the API documentation, open the following link:
 ## Default API Endpoint
 **Auth routes**:
 <br/>
-``POST /api/v1/auth/register`` - Create new account
+``POST /api/auth/register`` - Create new account
 <br/>
-``POST /api/v1/auth/login`` - Login to existing account
+``POST /api/auth/login`` - Login to existing account
 
 **Account routes**:
 <br/>
-``GET /api/v1/account/profile`` - Get current account profile
+``GET /api/account/profile`` - Get current account profile
 <br/>
-``POST /api/v1/account/update-profile`` - Update current account profile
+``POST /api/account/update-profile`` - Update current account profile
 <br/>
-``POST /api/v1/account/update-password`` - Update current account password
+``POST /api/account/update-password`` - Update current account password
 
 ## Response Format
 - **Success Response**:

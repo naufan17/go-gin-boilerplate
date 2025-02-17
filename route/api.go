@@ -1,4 +1,4 @@
-package routes
+package route
 
 import (
 	"net/http"
@@ -13,7 +13,7 @@ import (
 )
 
 func ApiRoutes(router *gin.Engine) {
-	api := router.Group("/api/v1")
+	api := router.Group("/api")
 	{
 		auth := api.Group("/auth")
 		{

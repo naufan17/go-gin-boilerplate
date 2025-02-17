@@ -5,7 +5,7 @@ import (
 	"github.com/naufan17/go-gin-boilerplate/config"
 	"github.com/naufan17/go-gin-boilerplate/internal/dtos"
 	"github.com/naufan17/go-gin-boilerplate/internal/services"
-	"github.com/naufan17/go-gin-boilerplate/pkg/utils"
+	"github.com/naufan17/go-gin-boilerplate/pkg/util"
 
 	"github.com/gin-gonic/gin"
 
@@ -24,7 +24,7 @@ func Register(c *gin.Context) {
 	}
 
 	if validatorErr := config.GetValidator().Struct(user); validatorErr != nil {
-		errors := utils.ParseValidationError(validatorErr.(validator.ValidationErrors))
+		errors := util.ParseValidationError(validatorErr.(validator.ValidationErrors))
 
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": errors,
@@ -74,7 +74,7 @@ func Login(c *gin.Context) {
 	}
 
 	if validatorErr := config.GetValidator().Struct(user); validatorErr != nil {
-		errors := utils.ParseValidationError(validatorErr.(validator.ValidationErrors))
+		errors := util.ParseValidationError(validatorErr.(validator.ValidationErrors))
 
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": errors,

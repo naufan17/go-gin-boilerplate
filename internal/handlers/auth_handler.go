@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"time"
+
 	"github.com/go-playground/validator/v10"
 	"github.com/naufan17/go-gin-boilerplate/config"
 	"github.com/naufan17/go-gin-boilerplate/internal/dtos"
@@ -64,6 +66,8 @@ func Register(c *gin.Context) {
 
 func Login(c *gin.Context) {
 	var user dtos.LoginDto
+	// var ipAddress string = c.ClientIP()
+	// var userAgent string = c.Request.UserAgent()
 
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -83,7 +87,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	accessToken, err := services.LoginUser(user)
+	accessToken, refreshToken, err := services.LoginUser(user)
 
 	if err != nil {
 		if err.Error() == "unauthorized" {
@@ -113,7 +117,14 @@ func Login(c *gin.Context) {
 		return
 	}
 
+	expirationTime := time.Unix(int64(refreshToken.ExpiresIn), 0)
+	c.SetCookie("refresh_token", refreshToken.RefreshToken, int(time.Until(expirationTime).Seconds()), "/", "", true, true)
+
 	c.JSON(http.StatusOK, gin.H{
-		"data": accessToken,
+		"data": gin.H{
+			"access_token": accessToken.AccessToken,
+			"token_type":   accessToken.TokenType,
+			"expires_in":   accessToken.ExpiresIn,
+		},
 	})
 }

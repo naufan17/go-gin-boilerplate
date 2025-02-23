@@ -20,6 +20,12 @@ type AccessTokenDto struct {
 	TokenType   string `json:"token_type"`
 }
 
+type RefreshTokenDto struct {
+	RefreshToken string `json:"refresh_token"`
+	ExpiresIn    int64  `json:"expires_in"`
+	TokenType    string `json:"token_type"`
+}
+
 func ToUserModel(user RegisterDto) models.User {
 	return models.User{
 		Name:     user.Name,

@@ -8,7 +8,7 @@ import (
 	"github.com/naufan17/go-gin-boilerplate/pkg/auth"
 )
 
-func AuthenticateJWT(c *gin.Context) {
+func AuthorizeBearer(c *gin.Context) {
 	authHeader := c.GetHeader("Authorization")
 
 	if authHeader == "" {
@@ -36,7 +36,7 @@ func AuthenticateJWT(c *gin.Context) {
 	c.Next()
 }
 
-func AuthenticateCookie(c *gin.Context) {
+func AuthorizeCookie(c *gin.Context) {
 	cookie, err := c.Cookie("refresh_token")
 
 	if err != nil {

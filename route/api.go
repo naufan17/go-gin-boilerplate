@@ -19,16 +19,16 @@ func ApiRoutes(router *gin.Engine) {
 		{
 			auth.POST("/register", handlers.Register)
 			auth.POST("/login", handlers.Login)
-			auth.GET("/refresh", middewares.AuthenticateCookie, handlers.RefreshToken)
-			auth.GET("/logout", middewares.AuthenticateJWT, middewares.AuthenticateCookie, handlers.Logout)
+			auth.GET("/refresh", middewares.AuthorizeCookie, handlers.RefreshToken)
+			auth.GET("/logout", middewares.AuthorizeBearer, middewares.AuthorizeCookie, handlers.Logout)
 		}
 
 		account := api.Group("/account")
 		{
-			account.GET("/profile", middewares.AuthenticateJWT, handlers.GetProfile)
-			account.GET("/session", middewares.AuthenticateJWT, handlers.GetSession)
-			account.POST("/update-profile", middewares.AuthenticateJWT, handlers.UpdateProfile)
-			account.POST("/update-password", middewares.AuthenticateJWT, handlers.UpdatePassword)
+			account.GET("/profile", middewares.AuthorizeBearer, handlers.GetProfile)
+			account.GET("/session", middewares.AuthorizeBearer, handlers.GetSession)
+			account.POST("/update-profile", middewares.AuthorizeBearer, handlers.UpdateProfile)
+			account.POST("/update-password", middewares.AuthorizeBearer, handlers.UpdatePassword)
 		}
 	}
 

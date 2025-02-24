@@ -30,5 +30,6 @@ func ToUserModel(user RegisterDto) models.User {
 	return models.User{
 		Name:     user.Name,
 		Email:    user.Email,
-		Password: user.Password}
+		Password: user.Password,
+	}
 }

@@ -10,7 +10,7 @@ import (
 type Session struct {
 	gorm.Model
 	ID           uuid.UUID `json:"id" gorm:"type:char(36);not null"`
-	UserID       uuid.UUID `json:"user_id" gorm:"type:char(36);not null;unique"`
+	UserID       uuid.UUID `json:"user_id" gorm:"type:char(36);not null"`
 	IPAddress    string    `json:"ip_address" gorm:"type:varchar(128);not null"`
 	UserAgent    string    `json:"user_agent" gorm:"type:varchar(255);not null"`
 	LoginAt      time.Time `json:"login_at" gorm:"autoCreateTime;not null"`

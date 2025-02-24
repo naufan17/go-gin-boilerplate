@@ -66,8 +66,8 @@ func Register(c *gin.Context) {
 
 func Login(c *gin.Context) {
 	var user dtos.LoginDto
-	// var ipAddress string = c.ClientIP()
-	// var userAgent string = c.Request.UserAgent()
+	var ipAddress string = c.ClientIP()
+	var userAgent string = c.Request.UserAgent()
 
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -87,7 +87,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	accessToken, refreshToken, err := services.LoginUser(user)
+	accessToken, refreshToken, err := services.LoginUser(user, ipAddress, userAgent)
 
 	if err != nil {
 		if err.Error() == "unauthorized" {

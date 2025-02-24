@@ -27,7 +27,7 @@ func RegisterUser(user dtos.RegisterDto) (models.User, error) {
 	return userSaveToDB, nil
 }
 
-func LoginUser(user dtos.LoginDto) (dtos.AccessTokenDto, dtos.RefreshTokenDto, error) {
+func LoginUser(user dtos.LoginDto, ipAddress string, userAgent string) (dtos.AccessTokenDto, dtos.RefreshTokenDto, error) {
 	userFromDB, err := repositories.GetUserByEmail(user.Email)
 
 	if err != nil {
@@ -38,26 +38,32 @@ func LoginUser(user dtos.LoginDto) (dtos.AccessTokenDto, dtos.RefreshTokenDto, e
 		return dtos.AccessTokenDto{}, dtos.RefreshTokenDto{}, errors.New("unauthorized")
 	}
 
-	accessToken, expiresIn, tokenType, err := auth.GenerateJWTAccess(userFromDB.ID)
+	accessAccessToken, accessExpiresIn, accessTokenType, err := auth.GenerateJWTAccess(userFromDB.ID)
 
 	if err != nil {
 		return dtos.AccessTokenDto{}, dtos.RefreshTokenDto{}, errors.New("internal server error")
 	}
 
-	refreshToken, expoexpiresIn, tokenType, err := auth.GenerateJWTRefresh(userFromDB.ID)
+	sessionFromDB, err := repositories.CreateSession(userFromDB.ID, ipAddress, userAgent)
+
+	if err != nil {
+		return dtos.AccessTokenDto{}, dtos.RefreshTokenDto{}, errors.New("internal server error")
+	}
+
+	refreshRefreshToken, refreshExpiresIn, refreshtTokenType, err := auth.GenerateJWTRefresh(sessionFromDB.ID)
 
 	if err != nil {
 		return dtos.AccessTokenDto{}, dtos.RefreshTokenDto{}, errors.New("internal server error")
 	}
 
 	return dtos.AccessTokenDto{
-			AccessToken: accessToken,
-			ExpiresIn:   expiresIn,
-			TokenType:   tokenType,
+			AccessToken: accessAccessToken,
+			ExpiresIn:   accessExpiresIn,
+			TokenType:   accessTokenType,
 		},
 		dtos.RefreshTokenDto{
-			RefreshToken: refreshToken,
-			ExpiresIn:    expoexpiresIn,
-			TokenType:    tokenType,
+			RefreshToken: refreshRefreshToken,
+			ExpiresIn:    refreshExpiresIn,
+			TokenType:    refreshtTokenType,
 		}, nil
 }

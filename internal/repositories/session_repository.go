@@ -1,17 +1,30 @@
 package repositories
 
 import (
+	"strconv"
+	"time"
+
 	"github.com/google/uuid"
 	"github.com/naufan17/go-gin-boilerplate/config"
 	"github.com/naufan17/go-gin-boilerplate/internal/models"
 )
 
-func CreateSession(session *models.Session) (uuid.UUID, error) {
-	if err := config.DB.Create(&session).Error; err != nil {
-		return uuid.Nil, err
+func CreateSession(userId uuid.UUID, ipAddress string, userAgent string) (models.Session, error) {
+	jwtRefreshExpStr := config.LoadConfig().JWTRefreshExp
+	jwtRefreshExp, _ := strconv.Atoi(jwtRefreshExpStr)
+
+	session := models.Session{
+		UserID:    userId,
+		IPAddress: ipAddress,
+		UserAgent: userAgent,
+		ExpiresAt: time.Now().Add(time.Duration(jwtRefreshExp) * time.Millisecond),
 	}
 
-	return session.ID, nil
+	if err := config.DB.Create(&session).Error; err != nil {
+		return models.Session{}, err
+	}
+
+	return session, nil
 }
 
 func GetSessionByUserID(id uuid.UUID) (models.Session, error) {

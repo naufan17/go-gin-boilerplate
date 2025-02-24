@@ -38,6 +38,33 @@ func GetProfile(c *gin.Context) {
 	})
 }
 
+func GetSession(c *gin.Context) {
+	claimsUser := c.MustGet("claimsUser").(*auth.Claims)
+	id := claimsUser.Sub
+
+	session, err := services.SessionUser(id)
+
+	if err != nil {
+		if err.Error() == "not found" {
+			c.JSON(http.StatusNotFound, gin.H{
+				"error": "user not found",
+			})
+
+			return
+		}
+
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "failed to get user session",
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": session,
+	})
+}
+
 func UpdateProfile(c *gin.Context) {
 	claimsUser := c.MustGet("claimsUser").(*auth.Claims)
 	id := claimsUser.Sub

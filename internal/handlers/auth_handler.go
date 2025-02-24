@@ -168,8 +168,8 @@ func RefreshToken(c *gin.Context) {
 }
 
 func Logout(c *gin.Context) {
-	claimsSession := c.MustGet("claimsSession").(*auth.Claims)
-	id := claimsSession.Sub
+	claimsUser := c.MustGet("claimsUser").(*auth.Claims)
+	id := claimsUser.Sub
 
 	err := services.LogoutUser(id)
 

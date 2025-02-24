@@ -37,11 +37,11 @@ func GetSessionByID(id uuid.UUID) (models.Session, error) {
 	return session, nil
 }
 
-func GetSessionByUserID(id uuid.UUID) (models.Session, error) {
-	var session models.Session
+func GetSessionByUserID(id uuid.UUID) ([]models.Session, error) {
+	var session []models.Session
 
-	if err := config.DB.Where("user_id = ?", id).First(&session).Error; err != nil {
-		return models.Session{}, err
+	if err := config.DB.Where("user_id = ?", id).Order("login_at desc").Find(&session).Error; err != nil {
+		return []models.Session{}, err
 	}
 
 	return session, nil
@@ -50,7 +50,7 @@ func GetSessionByUserID(id uuid.UUID) (models.Session, error) {
 func UpdateLastActive(id uuid.UUID) (models.Session, error) {
 	var session models.Session
 
-	if err := config.DB.Model(&session).Where("id = ?", id).Update("last_active_at", session.LastActiveAt).Error; err != nil {
+	if err := config.DB.Model(&session).Where("id = ?", id).Update("last_active_at", time.Now()).Error; err != nil {
 		return models.Session{}, err
 	}
 
@@ -60,7 +60,7 @@ func UpdateLastActive(id uuid.UUID) (models.Session, error) {
 func UpdateExpiresAt(id uuid.UUID) (models.Session, error) {
 	var session models.Session
 
-	if err := config.DB.Model(&session).Where("id = ?", id).Update("expires_at", session.ExpiresAt).Error; err != nil {
+	if err := config.DB.Model(&session).Where("user_id = ?", id).Update("expires_at", time.Now()).Error; err != nil {
 		return models.Session{}, err
 	}
 

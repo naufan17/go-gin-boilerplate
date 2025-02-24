@@ -39,6 +39,10 @@ func LoginUser(user dtos.LoginDto, ipAddress string, userAgent string) (dtos.Acc
 		return dtos.AccessTokenDto{}, dtos.RefreshTokenDto{}, errors.New("unauthorized")
 	}
 
+	if _, err := repositories.UpdateExpiresAt(userFromDB.ID); err != nil {
+		return dtos.AccessTokenDto{}, dtos.RefreshTokenDto{}, errors.New("internal server error")
+	}
+
 	accessAccessToken, accessExpiresIn, accessTokenType, err := auth.GenerateJWTAccess(userFromDB.ID)
 
 	if err != nil {

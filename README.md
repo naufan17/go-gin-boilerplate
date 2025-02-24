@@ -100,10 +100,16 @@ To view the API documentation, open the following link:
 ``POST /api/auth/register`` - Create new account
 <br/>
 ``POST /api/auth/login`` - Login to existing account
+<br/>
+``GET /api/auth/refresh`` - Refresh access token
+<br/>
+``GET /api/auth/logout`` - Logout account
 
 **Account routes**:
 <br/>
 ``GET /api/account/profile`` - Get current account profile
+<br/>
+``GET /api/account/session`` - Get current account session
 <br/>
 ``POST /api/account/update-profile`` - Update current account profile
 <br/>

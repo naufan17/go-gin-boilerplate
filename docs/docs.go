@@ -34,7 +34,7 @@ const docTemplate = `
 		}
 	},
 	"paths": {
-		"/api/v1/auth/register": {
+		"/api/auth/register": {
 			"post": {
 				"summary": "Create new account",
 				"tags": ["Auth"],
@@ -123,7 +123,7 @@ const docTemplate = `
 				}
 			}
 		},
-		"/api/v1/auth/login": {
+		"/api/auth/login": {
 			"post": {
 				"summary": "Login to existing account",
 				"tags": ["Auth"],
@@ -157,13 +157,13 @@ const docTemplate = `
 								"data": {
 									"type": "object",
 									"properties": {
-										"accessToken": {
+										"access_token": {
 											"type": "string"
 										},
-										"expiresIn": {
+										"expires_in": {
 											"type": "number"
 										},
-										"tokenType": {
+										"token_type": {
 											"type": "string"
 										}
 									}
@@ -207,7 +207,126 @@ const docTemplate = `
 				}
 			}
 		},
-		"/api/v1/account/profile": {
+		"/api/auth/refresh": {
+			"get": {
+				"summary": "Refresh access token",
+				"tags": ["Auth"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Refresh token successful",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"data": {
+									"type": "object",
+									"properties": {
+										"access_token": {
+											"type": "string"
+										},
+										"expires_in": {
+											"type": "number"
+										},
+										"token_type": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						description: "Invalid token",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Error refreshing token",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/auth/logout": {
+			"get": {
+				"summary": "Logout from account",
+				"tags": ["Auth"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Logout successful",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"message": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Invalid token",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Error logging out",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/account/profile": {
 			"get": {
 				"summary": "Get current account profile",
 				"tags": ["Account"],
@@ -271,13 +390,223 @@ const docTemplate = `
 					}
 				}
 			}
+		},
+		"/api/account/session": {
+			"get": {
+				"summary": "Get current account session",
+				"tags": ["Account"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"	
+						}
+					}
+				],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Get current session",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"data": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"id": {
+												"type": "number"
+											},
+											"ip_address": {
+												"type": "string"
+											},
+											"user_agent": {
+												"type": "string"
+											},
+											"status": {
+												"type": "string"
+											},
+											"login_at": {
+												"type": "string"
+											},
+											"last_active": {
+												"type": "string"
+											},
+											"expires_at": {
+												"type": "string"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Invalid token",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Error getting session",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/account/update-profile": {
+			"post": {
+				"summary": "Update account profile",
+				"tags": ["Account"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Update profile successful",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"message": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Invalid token",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Error updating profile",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/account/update-password": {
+			"post": {
+				"summary": "Update account password",
+				"tags": ["Account"],
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Update password successful",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"message": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Invalid token",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Error updating password",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"error": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "1.0.0",
+	Version:          "1.2.0",
 	Host:             "localhost:8080",
 	BasePath:         "/",
 	Schemes:          []string{},

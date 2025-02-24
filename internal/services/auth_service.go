@@ -1,6 +1,7 @@
 package services
 
 import (
+	"github.com/google/uuid"
 	"github.com/naufan17/go-gin-boilerplate/internal/dtos"
 	"github.com/naufan17/go-gin-boilerplate/internal/models"
 	"github.com/naufan17/go-gin-boilerplate/internal/repositories"
@@ -66,4 +67,36 @@ func LoginUser(user dtos.LoginDto, ipAddress string, userAgent string) (dtos.Acc
 			ExpiresIn:    refreshExpiresIn,
 			TokenType:    refreshtTokenType,
 		}, nil
+}
+
+func RefreshTokenUser(id uuid.UUID) (dtos.AccessTokenDto, error) {
+	sessionFromDB, err := repositories.GetSessionByID(id)
+
+	if err != nil {
+		return dtos.AccessTokenDto{}, errors.New("not found")
+	}
+
+	if _, err := repositories.UpdateLastActive(sessionFromDB.ID); err != nil {
+		return dtos.AccessTokenDto{}, errors.New("internal server error")
+	}
+
+	accessAccessToken, accessExpiresIn, accessTokenType, err := auth.GenerateJWTAccess(sessionFromDB.UserID)
+
+	if err != nil {
+		return dtos.AccessTokenDto{}, errors.New("internal server error")
+	}
+
+	return dtos.AccessTokenDto{
+		AccessToken: accessAccessToken,
+		ExpiresIn:   accessExpiresIn,
+		TokenType:   accessTokenType,
+	}, nil
+}
+
+func LogoutUser(id uuid.UUID) error {
+	if _, err := repositories.UpdateExpiresAt(id); err != nil {
+		return errors.New("internal server error")
+	}
+
+	return nil
 }

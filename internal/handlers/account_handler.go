@@ -13,21 +13,21 @@ import (
 )
 
 func GetProfile(c *gin.Context) {
-	claims := c.MustGet("claims").(*auth.Claims)
-	id := claims.Sub
+	claimsUser := c.MustGet("claimsUser").(*auth.Claims)
+	id := claimsUser.Sub
 	user, err := services.ProfileUser(id)
 
 	if err != nil {
 		if err.Error() == "not found" {
 			c.JSON(http.StatusNotFound, gin.H{
-				"error": "User not found",
+				"error": "user not found",
 			})
 
 			return
 		}
 
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "Failed to get user profile",
+			"error": "failed to get user profile",
 		})
 
 		return
@@ -39,13 +39,13 @@ func GetProfile(c *gin.Context) {
 }
 
 func UpdateProfile(c *gin.Context) {
-	claims := c.MustGet("claims").(*auth.Claims)
-	id := claims.Sub
+	claimsUser := c.MustGet("claimsUser").(*auth.Claims)
+	id := claimsUser.Sub
 	var user dtos.UpdateProfileDto
 
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Invalid request body",
+			"error": "invalid request body",
 		})
 
 		return
@@ -66,32 +66,32 @@ func UpdateProfile(c *gin.Context) {
 	if err != nil {
 		if err.Error() == "not found" {
 			c.JSON(http.StatusNotFound, gin.H{
-				"error": "User not found",
+				"error": "user not found",
 			})
 
 			return
 		}
 
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "Failed to update user profile",
+			"error": "failed to update user profile",
 		})
 
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "User profile updated successfully",
+		"message": "user profile updated successfully",
 	})
 }
 
 func UpdatePassword(c *gin.Context) {
-	claims := c.MustGet("claims").(*auth.Claims)
-	id := claims.Sub
+	claimsUser := c.MustGet("claimsUser").(*auth.Claims)
+	id := claimsUser.Sub
 	var user dtos.UpdatePasswordDto
 
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Invalid request body",
+			"error": "invalid request body",
 		})
 
 		return
@@ -112,26 +112,26 @@ func UpdatePassword(c *gin.Context) {
 	if err != nil {
 		if err.Error() == "not found" {
 			c.JSON(http.StatusNotFound, gin.H{
-				"error": "User not found",
+				"error": "user not found",
 			})
 
 			return
 		} else if err.Error() == "internal server error" {
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": "Failed to update user password",
+				"error": "failed to update user password",
 			})
 
 			return
 		}
 
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "Failed to update user password",
+			"error": "failed to update user password",
 		})
 
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "User password updated successfully",
+		"message": "user password updated successfully",
 	})
 }

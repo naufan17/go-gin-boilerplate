@@ -19,8 +19,8 @@ func ApiRoutes(router *gin.Engine) {
 		{
 			auth.POST("/register", handlers.Register)
 			auth.POST("/login", handlers.Login)
-			auth.GET("/refresh", middewares.AuthenticateCookie)
-			auth.GET("/logout", middewares.AuthenticateJWT, middewares.AuthenticateCookie)
+			auth.GET("/refresh", middewares.AuthenticateCookie, handlers.RefreshToken)
+			auth.GET("/logout", middewares.AuthenticateJWT, middewares.AuthenticateCookie, handlers.Logout)
 		}
 
 		account := api.Group("/account")
@@ -42,13 +42,13 @@ func ApiRoutes(router *gin.Engine) {
 
 	router.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{
-			"message": "Route not found",
+			"message": "route not found",
 		})
 	})
 
 	router.NoMethod(func(c *gin.Context) {
 		c.JSON(http.StatusMethodNotAllowed, gin.H{
-			"message": "Method not allowed",
+			"message": "method not allowed",
 		})
 	})
 }

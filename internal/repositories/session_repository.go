@@ -27,6 +27,16 @@ func CreateSession(userId uuid.UUID, ipAddress string, userAgent string) (models
 	return session, nil
 }
 
+func GetSessionByID(id uuid.UUID) (models.Session, error) {
+	var session models.Session
+
+	if err := config.DB.Where("id = ?", id).First(&session).Error; err != nil {
+		return models.Session{}, err
+	}
+
+	return session, nil
+}
+
 func GetSessionByUserID(id uuid.UUID) (models.Session, error) {
 	var session models.Session
 

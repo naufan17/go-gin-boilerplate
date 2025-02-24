@@ -13,7 +13,7 @@ func AuthenticateJWT(c *gin.Context) {
 
 	if authHeader == "" {
 		c.JSON(http.StatusUnauthorized, gin.H{
-			"error": "Authorization header is required",
+			"error": "authorization header is required",
 		})
 
 		c.Abort()
@@ -25,14 +25,14 @@ func AuthenticateJWT(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
-			"error": "Invalid token",
+			"error": "invalid token",
 		})
 
 		c.Abort()
 		return
 	}
 
-	c.Set("claims", claims)
+	c.Set("claimsUser", claims)
 	c.Next()
 }
 
@@ -41,7 +41,7 @@ func AuthenticateCookie(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
-			"error": "Refresh token cookie is required",
+			"error": "refresh token cookie is required",
 		})
 
 		c.Abort()
@@ -52,13 +52,13 @@ func AuthenticateCookie(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
-			"error": "Invalid refresh token",
+			"error": "invalid refresh token",
 		})
 
 		c.Abort()
 		return
 	}
 
-	c.Set("claims", claims)
+	c.Set("claimsSession", claims)
 	c.Next()
 }

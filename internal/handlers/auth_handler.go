@@ -7,6 +7,7 @@ import (
 	"github.com/naufan17/go-gin-boilerplate/config"
 	"github.com/naufan17/go-gin-boilerplate/internal/dtos"
 	"github.com/naufan17/go-gin-boilerplate/internal/services"
+	"github.com/naufan17/go-gin-boilerplate/pkg/auth"
 	"github.com/naufan17/go-gin-boilerplate/pkg/util"
 
 	"github.com/gin-gonic/gin"
@@ -19,7 +20,7 @@ func Register(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Invalid request body",
+			"error": "invalid request body",
 		})
 
 		return
@@ -40,27 +41,27 @@ func Register(c *gin.Context) {
 	if err != nil {
 		if err.Error() == "conflict" {
 			c.JSON(http.StatusConflict, gin.H{
-				"error": "User already exists",
+				"error": "user already exists",
 			})
 
 			return
 		} else if err.Error() == "internal server error" {
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": "Failed to register user",
+				"error": "failed to register user",
 			})
 
 			return
 		}
 
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "Failed to register user",
+			"error": "failed to register user",
 		})
 
 		return
 	}
 
 	c.JSON(http.StatusCreated, gin.H{
-		"message": "User registered successfully",
+		"message": "user registered successfully",
 	})
 }
 
@@ -71,7 +72,7 @@ func Login(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Invalid request body",
+			"error": "invalid request body",
 		})
 
 		return
@@ -92,26 +93,26 @@ func Login(c *gin.Context) {
 	if err != nil {
 		if err.Error() == "unauthorized" {
 			c.JSON(http.StatusUnauthorized, gin.H{
-				"error": "Email or password is incorrect",
+				"error": "email or password is incorrect",
 			})
 
 			return
 		} else if err.Error() == "not found" {
 			c.JSON(http.StatusNotFound, gin.H{
-				"error": "User not found",
+				"error": "user not found",
 			})
 
 			return
 		} else if err.Error() == "internal server error" {
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"error": "Failed to login user",
+				"error": "failed to login user",
 			})
 
 			return
 		}
 
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "Failed to login user",
+			"error": "failed to login user",
 		})
 
 		return
@@ -126,5 +127,63 @@ func Login(c *gin.Context) {
 			"token_type":   accessToken.TokenType,
 			"expires_in":   accessToken.ExpiresIn,
 		},
+	})
+}
+
+func RefreshToken(c *gin.Context) {
+	claimsSession := c.MustGet("claimsSession").(*auth.Claims)
+	id := claimsSession.Sub
+
+	accessToken, err := services.RefreshTokenUser(id)
+
+	if err != nil {
+		if err.Error() == "not found" {
+			c.JSON(http.StatusNotFound, gin.H{
+				"error": "user not found",
+			})
+
+			return
+		} else if err.Error() == "internal server error" {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": "failed to refresh token",
+			})
+
+			return
+		}
+
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "failed to refresh token",
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": gin.H{
+			"access_token": accessToken.AccessToken,
+			"token_type":   accessToken.TokenType,
+			"expires_in":   accessToken.ExpiresIn,
+		},
+	})
+}
+
+func Logout(c *gin.Context) {
+	claimsSession := c.MustGet("claimsSession").(*auth.Claims)
+	id := claimsSession.Sub
+
+	err := services.LogoutUser(id)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "failed to logout user",
+		})
+
+		return
+	}
+
+	c.SetCookie("refresh_token", "", -1, "/", "", true, true)
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "user logged out successfully",
 	})
 }

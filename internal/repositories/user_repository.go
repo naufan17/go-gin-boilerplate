@@ -28,7 +28,7 @@ func GetUserByEmail(email string) (models.User, error) {
 func GetUserByID(id uuid.UUID) (models.User, error) {
 	var user models.User
 
-	if err := config.DB.Where("id = ?", id).Select("id", "name", "email").First(&user).Error; err != nil {
+	if err := config.DB.Where("id = ?", id).Select("id", "name", "email", "address", "phone_number", "profile_picture", "is_verified").First(&user).Error; err != nil {
 		return models.User{}, err
 	}
 
@@ -38,7 +38,7 @@ func GetUserByID(id uuid.UUID) (models.User, error) {
 func UpdateProfile(user dtos.UpdateProfileDto, id uuid.UUID) (models.User, error) {
 	var updatedUser models.User
 
-	if err := config.DB.Model(&updatedUser).Where("id = ?", id).Updates(models.User{Name: user.Name, Email: user.Email}).Error; err != nil {
+	if err := config.DB.Model(&updatedUser).Where("id = ?", id).Updates(models.User{Name: user.Name, Email: user.Email, Address: user.Address, PhoneNumber: user.PhoneNumber}).Error; err != nil {
 		return models.User{}, err
 	}
 

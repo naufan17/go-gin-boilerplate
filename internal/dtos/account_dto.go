@@ -8,9 +8,13 @@ import (
 )
 
 type ProfileDto struct {
-	ID    uuid.UUID `json:"id"`
-	Name  string    `json:"name"`
-	Email string    `json:"email"`
+	ID             uuid.UUID `json:"id"`
+	Name           string    `json:"name"`
+	Email          string    `json:"email"`
+	Address        string    `json:"address"`
+	PhoneNumber    string    `json:"phone_number"`
+	ProfilePicture string    `json:"profile_picture"`
+	IsVerified     bool      `json:"is_verified"`
 }
 
 type SessionDto struct {
@@ -24,8 +28,10 @@ type SessionDto struct {
 }
 
 type UpdateProfileDto struct {
-	Name  string `json:"name" validate:"required"`
-	Email string `json:"email" validate:"required,email"`
+	Name        string `json:"name" validate:"required"`
+	Email       string `json:"email" validate:"required,email"`
+	Address     string `json:"address" validate:"required"`
+	PhoneNumber string `json:"phone_number" validate:"required"`
 }
 
 type UpdatePasswordDto struct {
@@ -35,9 +41,13 @@ type UpdatePasswordDto struct {
 
 func ToProfileDto(user models.User) ProfileDto {
 	return ProfileDto{
-		ID:    user.ID,
-		Name:  user.Name,
-		Email: user.Email,
+		ID:             user.ID,
+		Name:           user.Name,
+		Email:          user.Email,
+		Address:        user.Address,
+		PhoneNumber:    user.PhoneNumber,
+		ProfilePicture: user.ProfilePicture,
+		IsVerified:     user.IsVerified,
 	}
 }
 

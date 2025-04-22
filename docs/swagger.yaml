@@ -228,6 +228,14 @@ paths:
                     type: string
                   email:
                     type: string
+                  address:
+                    type: string
+                  phone_number:
+                    type: string
+                  profile_picture:
+                    type: string
+                  is_verified:
+                    type: boolean
         '401':
           description: Invalid token
           schema:
@@ -309,6 +317,16 @@ paths:
           schema:
             type: string
         - name: email
+          in: body
+          required: true
+          schema:
+            type: string
+        - name: address
+          in: body
+          required: true
+          schema:
+            type: string
+        - name: phone_number
           in: body
           required: true
           schema:

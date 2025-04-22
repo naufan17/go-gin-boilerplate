@@ -360,6 +360,18 @@ const docTemplate = `
 										},
 										"email": {
 											"type": "string"
+										},
+										"address": {
+											"type": "string"
+										},
+										"phone_number": {
+											"type": "string"
+										},
+										"profile_picture": {
+											"type": "string"
+										},
+										"is_verified": {
+											"type": "string"
 										}
 									}
 								}
@@ -480,6 +492,38 @@ const docTemplate = `
 						"name": "Authorization",
 						"in": "header",
 						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "name",
+						"in": "body",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "email",
+						"in": "body",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "address",
+						"in": "body",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "phone_number",
+						"in": "body",
+						"required": false,
 						"schema": {
 							"type": "string"
 						}
